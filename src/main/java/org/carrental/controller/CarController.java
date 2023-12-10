@@ -23,6 +23,20 @@ public class CarController {
         return ResponseEntity.ok(carList);
     }
 
+    @GetMapping
+    public ResponseEntity<Car> getCarByIdParam(@RequestParam(name="id") Integer id) {
+        Car car = carService.getById(id);
+
+        return ResponseEntity.ok(car);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Car> getCarByPathVariable(@PathVariable Integer id) {
+        Car car = carService.getById(id);
+
+        return ResponseEntity.ok(car);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
         try {
