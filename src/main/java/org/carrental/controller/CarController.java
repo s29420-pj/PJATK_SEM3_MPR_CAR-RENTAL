@@ -47,4 +47,11 @@ public class CarController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("{id}/update")
+    public ResponseEntity<Car> updateCar(@PathVariable Integer id, @RequestBody Car car) {
+        Car updatedCar = carService.updateModel(id, car.getModel());
+
+        return ResponseEntity.ok(updatedCar);
+    }
 }
