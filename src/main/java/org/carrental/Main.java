@@ -1,11 +1,15 @@
 package org.carrental;
 
 import org.carrental.model.car.Car;
+import org.carrental.model.car.CarClass;
+import org.carrental.model.car.CarStatus;
 import org.carrental.repository.CarRepository;
 import org.carrental.service.CarService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -22,17 +26,21 @@ public class Main {
 //        CarService carService = new CarService(carRepository);
 
 
-//        Car car2 = new Car(null, "volkswagen", "passat",
-//                "abc",
-//                CarClass.STANDARD, CarStatus.RENTED);
-//        Car car3 = new Car(null, "volkswagen", "passat",
-//                "zxc",
-//                CarClass.PREMIUM, CarStatus.AVAILABLE);
-////        Car createdCar = carService.createCar(car);
-//        carService.createCar(car2);
-//        carService.createCar(car3);
-//
-//        System.out.println(createdCar);
+        Car car2 = new Car(null, "volkswagen", "passat",
+                "abc",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+        Car car3 = new Car(null, "volkswagen", "passat",
+                "zxc",
+                CarClass.PREMIUM, CarStatus.AVAILABLE, 30D);
+
+//        Car createdCar = carService.createCar(car2);
+        Car createdCar = carService.createCar(car2);
+        carService.createCar(car3);
+
+        System.out.println(createdCar);
+
+        List<Car> carList = carService.getAll();
+        System.out.println(carList);
 //
 //        Car carById = carService.getById(0);
 //
