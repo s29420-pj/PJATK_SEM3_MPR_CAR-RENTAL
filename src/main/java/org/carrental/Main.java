@@ -1,15 +1,25 @@
 package org.carrental;
 
+import org.carrental.model.car.Car;
 import org.carrental.repository.CarRepository;
 import org.carrental.service.CarService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-        CarRepository carRepository = new CarRepository();
-        CarService carService = new CarService(carRepository);
+        CarRepository carRepository = context.getBean("carRepository", CarRepository.class);
+        CarService carService = context.getBean("carService", CarService.class);
+
+
+//        CarRepository carRepository = new CarRepository();
+//        CarService carService = new CarService(carRepository);
 
 
 //        Car car2 = new Car(null, "volkswagen", "passat",

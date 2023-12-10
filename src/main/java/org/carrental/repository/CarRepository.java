@@ -2,12 +2,14 @@ package org.carrental.repository;
 
 import org.carrental.model.car.Car;
 import org.carrental.model.car.CarStatus;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
 public class CarRepository {
     List<Car> carList = new ArrayList<>();
 

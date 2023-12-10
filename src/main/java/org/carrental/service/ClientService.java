@@ -1,4 +1,7 @@
 package org.carrental.service;
 
-public interface ClientService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ClientService {
 }

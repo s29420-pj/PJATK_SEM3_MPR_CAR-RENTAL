@@ -7,10 +7,12 @@ import org.carrental.exception.RentException;
 import org.carrental.model.car.Car;
 import org.carrental.model.rent.Rent;
 import org.carrental.repository.RentRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
+@Service
 public class RentService {
     private final CarService carService;
     private final RentRepository rentRepository;
