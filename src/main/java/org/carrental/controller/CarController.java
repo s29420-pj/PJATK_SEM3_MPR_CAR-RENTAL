@@ -39,13 +39,11 @@ public class CarController {
 
     @PostMapping("/create")
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
-        try {
-            Car createdCar = carService.createCar(car);
+        Car createdCar = carService.createCar(car);
 
-            return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(createdCar);
-        } catch (ValidationException validationException) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity
+                .status(HttpStatusCode.valueOf(201))
+                .body(createdCar);
     }
 
     @PutMapping("{id}/update")
