@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,5 +71,69 @@ class CarControllerTest {
 
         assertEquals(result.getVin(), car.getVin());
         assertEquals(result, carRepository.getById(result.getId()).get());
+    }
+
+    @Test
+    void shouldCreateAllCars() throws JsonProcessingException {
+        Car car = new Car(null, "volkswagen", "passat",
+                "abc",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+        Car car2 = new Car(null, "volkswagen", "passat",
+                "abc",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+        String carJson = objectMapper.writeValueAsString(car);
+
+        carRepository.create(car);
+        carRepository.create(car2);
+
+        List<Car> result = webTestClient.get().uri("/car/all")
+                        .exchange()
+                        .expectBodyList(Car.class)
+                        .returnResult().getResponseBody();
+
+
+        assertEquals(2, result.size());
+        assertEquals(result, carRepository.getAll());
+    }
+
+    @Test
+    void shouldReturnCarByPathVariable() {
+        Car car = new Car(null, "volkswagen", "passat",
+                "abc",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+        carRepository.create(car);
+
+        Car result = webTestClient.get().uri("/car/0")
+                        .exchange()
+                        .expectBody(Car.class)
+                        .returnResult().getResponseBody();
+
+        assertEquals(result.getVin(), car.getVin());
+        assertEquals(result, carRepository.getById(result.getId()).get());
+    }
+
+    @Test
+    void shouldUpdateCar() throws JsonProcessingException {
+        Car car = new Car(null, "volkswagen", "passat",
+                "abc",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+        carRepository.create(car);
+
+        Car updatedCar = new Car(null, "volkswagen", "golf",
+                "123",
+                CarClass.STANDARD, CarStatus.RENTED, 50D);
+
+        String carJson = objectMapper.writeValueAsString(updatedCar);
+
+        Car result = webTestClient.put().uri("/car/0/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(carJson)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Car.class)
+                .returnResult().getResponseBody();
+
+        assertEquals(result.getModel(), updatedCar.getModel());
+        assertNotEquals(result.getVin(), updatedCar.getVin());
     }
 }
