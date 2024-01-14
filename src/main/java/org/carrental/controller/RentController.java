@@ -30,5 +30,4 @@ public class RentController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }
