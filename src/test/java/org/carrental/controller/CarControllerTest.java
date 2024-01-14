@@ -6,7 +6,6 @@ import org.carrental.model.car.Car;
 import org.carrental.model.car.CarClass;
 import org.carrental.model.car.CarStatus;
 import org.carrental.repository.CarRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,8 +28,9 @@ class CarControllerTest {
     private CarRepository carRepository;
     @Autowired
     private ObjectMapper objectMapper;
+
     @BeforeEach
-    public void cleanup() {
+    public void cleanup(){
         carRepository.removeAll();
     }
 
@@ -40,6 +39,7 @@ class CarControllerTest {
         Car car = new Car(null, "volkswagen", "passat",
                 "abc",
                 CarClass.STANDARD, CarStatus.RENTED, 50D);
+
         String carJson = objectMapper.writeValueAsString(car);
 
         Car result = webTestClient.post().uri("/car/create")
@@ -54,8 +54,9 @@ class CarControllerTest {
         assertEquals(result, carRepository.getById(result.getId()).get());
     }
 
+
     @Test
-    void shouldReturnCarByParam() {
+    void shouldReturnCarByParam(){
         Car car = new Car(null, "volkswagen", "passat",
                 "abc",
                 CarClass.STANDARD, CarStatus.RENTED, 50D);
@@ -69,27 +70,26 @@ class CarControllerTest {
                 .expectBody(Car.class)
                 .returnResult().getResponseBody();
 
+
         assertEquals(result.getVin(), car.getVin());
         assertEquals(result, carRepository.getById(result.getId()).get());
     }
 
     @Test
-    void shouldCreateAllCars() throws JsonProcessingException {
+    void shouldReturnAllCars(){
         Car car = new Car(null, "volkswagen", "passat",
                 "abc",
                 CarClass.STANDARD, CarStatus.RENTED, 50D);
-        Car car2 = new Car(null, "volkswagen", "passat",
+        Car car2 = new Car(null, "volkswagen", "polo",
                 "abc",
-                CarClass.STANDARD, CarStatus.RENTED, 50D);
-        String carJson = objectMapper.writeValueAsString(car);
-
+                CarClass.STANDARD, CarStatus.RENTED, 25D);
         carRepository.create(car);
         carRepository.create(car2);
 
         List<Car> result = webTestClient.get().uri("/car/all")
-                        .exchange()
-                        .expectBodyList(Car.class)
-                        .returnResult().getResponseBody();
+                .exchange()
+                .expectBodyList(Car.class)
+                .returnResult().getResponseBody();
 
 
         assertEquals(2, result.size());
@@ -97,16 +97,17 @@ class CarControllerTest {
     }
 
     @Test
-    void shouldReturnCarByPathVariable() {
+    void shouldReturnCarByPathVariable(){
         Car car = new Car(null, "volkswagen", "passat",
                 "abc",
                 CarClass.STANDARD, CarStatus.RENTED, 50D);
         carRepository.create(car);
 
         Car result = webTestClient.get().uri("/car/0")
-                        .exchange()
-                        .expectBody(Car.class)
-                        .returnResult().getResponseBody();
+                .exchange()
+                .expectBody(Car.class)
+                .returnResult().getResponseBody();
+
 
         assertEquals(result.getVin(), car.getVin());
         assertEquals(result, carRepository.getById(result.getId()).get());

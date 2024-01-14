@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/car")
 @RequiredArgsConstructor
 public class CarController {
+
     private final CarService carService;
 
     @GetMapping("/all")
@@ -24,7 +25,7 @@ public class CarController {
     }
 
     @GetMapping
-    public ResponseEntity<Car> getCarByIdParam(@RequestParam(name="id") Integer id) {
+    public ResponseEntity<Car> getCarByIdParam(@RequestParam(name = "id") Integer id) {
         Car car = carService.getById(id);
 
         return ResponseEntity.ok(car);
@@ -52,4 +53,5 @@ public class CarController {
 
         return ResponseEntity.ok(updatedCar);
     }
+
 }
